@@ -37,6 +37,11 @@ level = 1
 
 
 def start_game(keys):
+    """
+
+    :param keys: keys used to start the game
+    :return: the game begins
+    """
     if background_number == 1:
         loading_screen(keys)
     elif background_number == 2:
@@ -44,6 +49,11 @@ def start_game(keys):
 
 
 def loading_screen(keys):
+    """
+
+    :param keys: keys used to start the game
+    :return: once the keys are hit, the player gets transferred to the intro screen
+    """
     global ticks
     global background_number
     ticks += 1
@@ -66,6 +76,11 @@ def loading_screen(keys):
 
 
 def intro(keys):
+    """
+
+    :param keys: the keys pressed to start playing the game
+    :return: the game starts
+    """
     global game_on
     global ticks
     global background_number
@@ -122,6 +137,10 @@ def intro(keys):
 
 
 def mario():
+    """
+
+    :return: mario as a sprite sheet/ animation
+    """
     global ticks
     global character
     global sheet
@@ -131,6 +150,11 @@ def mario():
 
 
 def player_movement(keys):
+    """
+
+    :param keys: the keys used to manuvuer mario
+    :return: mario moves left or right of the screen
+    """
     global character
     global sheet
     if game_on:
@@ -148,6 +172,10 @@ def player_movement(keys):
 
 
 def score_count():
+    """
+
+    :return: displays the time/score of the game. After the score/ time is 90, the level changes.
+    """
     global score
     global game_on
     global level
@@ -155,16 +183,17 @@ def score_count():
         score += 1
         fixed_score = str(int(score // 30))
         camera.draw(gamebox.from_text(400, 50, fixed_score, 40, "orange", bold=True))
-        if (score // 30) <= 90 and (score // 30) >= 80:
-            level1_complete = gamebox.from_text(camera.x, camera.y, "Prepare For The Next Level",
-                                                40, "White", italic=True)
-            camera.draw(level1_complete)
         if (score // 30) >= 90:
             level += 1
             score = 0
 
 
 def enemieslvl1():
+    """
+
+    :return: first level enemies are created, drop from the top of the screen, and then get removed once it passes
+    mario's location
+    """
     global lvl1_enemies
     global ticks
     ticks += 1
@@ -195,6 +224,11 @@ def enemieslvl1():
 
 
 def enemieslvl2():
+    """
+
+    :return: second level enemies are created, drop from the top of the screen, and then get removed once it passes
+    mario's location
+    """
     global lvl1_enemies
     global ticks
     ticks += 1
@@ -216,7 +250,6 @@ def enemieslvl2():
             enemy_3.scale_by(0.15)
             if rand_2 != rand_3 or rand_1 != rand_3:
                 lvl1_enemies.append(enemy_3)
-
         for enemy in lvl1_enemies:
             camera.draw(enemy)
             enemy.y += 12
@@ -225,6 +258,11 @@ def enemieslvl2():
 
 
 def enemieslvl3():
+    """
+
+    :return: third level enemies are created, drop from the top of the screen, and then get removed once it passes
+    mario's location
+    """
     global lvl1_enemies
     global ticks
     ticks += 1
@@ -256,6 +294,10 @@ def enemieslvl3():
 
 
 def coin_countlvl1():
+    """
+
+    :return: the coins from level one are created and removed if Mario doesn't collect them
+    """
     global ticks
     global score
     ticks += 1
@@ -284,6 +326,10 @@ def coin_countlvl1():
 
 
 def coin_countlvl2():
+    """
+
+    :return: the coins from level two are created and removed if Mario doesn't collect them
+    """
     global ticks
     global score
     ticks += 1
@@ -312,6 +358,10 @@ def coin_countlvl2():
 
 
 def coin_countlvl3():
+    """
+
+    :return: the coins from level three are created and removed if Mario doesn't collect them
+    """
     global ticks
     global score
     ticks += 1
@@ -340,6 +390,11 @@ def coin_countlvl3():
 
 
 def endgame(keys):
+    """
+
+    :param keys: key hit to restart the game
+    :return: displays "game over" and game ends. Player has the option to hit a key and play again.
+    """
     global game_on
     global background_number
     global level
@@ -359,6 +414,11 @@ def endgame(keys):
 
 
 def level1(keys):
+    """
+
+    :param keys: keys used to play level one
+    :return: level one is played
+    """
     global level
     global ticks
     global score
@@ -366,12 +426,20 @@ def level1(keys):
     player_movement(keys)
     coin_countlvl1()
     score_count()
+    if (score // 30) <= 90 and (score // 30) >= 60:
+        level1_complete = gamebox.from_text(camera.x, camera.y, "Prepare for the Next Level",
+                                            40, "white", italic=True, bold=True)
+        camera.draw(level1_complete)
     enemieslvl1()
     start_game(keys)
     endgame(keys)
 
 
 def level2(keys):
+    """
+    :param keys: keys used to play level two
+    :return: level two is played
+    """
     global level
     global ticks
     global score
@@ -379,11 +447,20 @@ def level2(keys):
     player_movement(keys)
     coin_countlvl2()
     score_count()
+    if (score // 30) <= 90 and (score // 30) >= 60:
+        level2_complete = gamebox.from_text(camera.x, camera.y, " Prepare For Next Level", 40,
+                                            "white", italic=True, bold=True)
+        camera.draw(level2_complete)
     enemieslvl2()
     endgame(keys)
 
 
 def level3(keys):
+    """
+
+    :param keys: keys used to play level three
+    :return: level three is played
+    """
     global level
     global ticks
     global score
@@ -396,6 +473,11 @@ def level3(keys):
 
 
 def tick(keys):
+    """
+    this is the main function
+    :param keys: keys used throughout the entire game
+    :return: runs the entire game
+    """
     global level
     global ticks
     global lvl1_enemies
@@ -409,10 +491,10 @@ def tick(keys):
         level3(keys)
     elif level == 4:
         camera.draw(winner_track)
-        win = gamebox.from_text(camera.x, camera.y-10, "YOU WIN!", 80, "cyan", italic=True, bold=True)
-        win_2 = gamebox.from_text(camera.x, camera.y+50, "PRINCESS PEACH IS SAVED!!!!", 60, "cyan", italic=True,
+        win = gamebox.from_text(camera.x, camera.y-50, "YOU WIN!", 80, "cyan", italic=True, bold=True)
+        win_2 = gamebox.from_text(camera.x, camera.y+20, "PRINCESS PEACH IS SAVED!!!!", 60, "cyan", italic=True,
                                   bold=True)
-        play_again = gamebox.from_text(camera.x, camera.y + 100, "Press Space to Play Again", 60, "cyan", italic=True,
+        play_again = gamebox.from_text(camera.x, camera.y + 80, "Press Space to Play Again", 60, "cyan", italic=True,
                                        bold=True)
         camera.draw(play_again)
         camera.draw(win)
@@ -425,3 +507,4 @@ def tick(keys):
 
 frames = 60
 gamebox.timer_loop(frames, tick)
+
